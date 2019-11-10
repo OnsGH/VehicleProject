@@ -35,7 +35,7 @@ public class PricingControllerUnitTest {
     PricingController pricingController;
     @Autowired
     private MockMvc mockMvc;
-    Long id = Long.valueOf(3); ;
+    Long id = Long.valueOf(3);
 
     @Test
     public  void getPrice() throws Exception {

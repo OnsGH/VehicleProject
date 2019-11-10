@@ -8,6 +8,10 @@
 		<version>2.1.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
+
+
+
 	<groupId>com.udacity</groupId>
 	<artifactId>VehicleProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

@@ -5,9 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -79,7 +77,7 @@ public class CarControllerTest {
     public void setup() {
         Car car = getCar();
 
-       // car.setId(Long.valueOf(1));
+       //car.setId(Long.valueOf(1));
         given(carService.save((any()))).willReturn(car);
         given(carService.findById(any())).willReturn(car);
         given(carService.list()).willReturn(Collections.singletonList(car));
@@ -100,6 +98,32 @@ public class CarControllerTest {
                         .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
     }
+
+    /**
+     * Tests for successful car update in the system
+     * @throws Exception when car update fails in the system
+     */
+
+    @Test
+    public void UpdateCar() throws Exception {
+        Car car = getCar();
+        car.setCondition(Condition.NEW);
+        mvc.perform(
+                put(new URI("/cars/1"))
+
+                        .content(json.write(car).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+
+                        .andExpect(MockMvcResultMatchers.content().contentType("application/json;charset=UTF-8"))
+                        .andExpect(jsonPath("$.id", is(1)))
+                        .andExpect(jsonPath("$.condition", is("NEW")))
+                        .andExpect(status().isOk())
+                        .andDo(MockMvcResultHandlers.print());
+
+        ;
+    }
+
 
     /**
      * Tests if the read operation appropriately returns a list of vehicles.
